@@ -14,20 +14,20 @@ public class PlayerMovement1 : MonoBehaviour
     /// <summary>
     /// Jumping Script Starts here
     /// </summary>
-   [Range(1, 5)]
+    [Range(1, 5)]
     public float fallMultiplier = 2.5f;
     [Range(1, 5)]
     public float lowJumpMultiplier = 2f;
-    
+
     public Transform groundCheck;
     private bool isGrounded;
-   
+
     public int extraJumps;
     // Start is called before the first frame update
     void Awake()
     {
         extraJumps = 1;
-        rb = GetComponent<Rigidbody>();   
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -62,7 +62,7 @@ public class PlayerMovement1 : MonoBehaviour
 
     void Update()
     {
-       
+
         if (isGrounded == true)
         {
             extraJumps = 1;
@@ -72,7 +72,7 @@ public class PlayerMovement1 : MonoBehaviour
             rb.velocity = Vector2.up * jumpforce;
             extraJumps--;
             Debug.Log(extraJumps);
-           
+
         }
         else if (Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && isGrounded == true)
         {
