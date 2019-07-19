@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-
 public class BeatSequencer : MonoBehaviour
 {
     public bool UpdateinPlaymode;
@@ -16,12 +15,41 @@ public class BeatSequencer : MonoBehaviour
     public bool patternD8Complete;
     public bool[][] patternD8Bool;
     private string[] patternD8String;
+    // Start is called before the first frame update
     void Start()
     {
         patternD8Bool = new bool[PatternD8.Length][];
         SetPatternBool(PatternD8, patternD8Bool, false, 0);
         patternD8String = new string[PatternD8.Length];
     }
+    void CheckPatternCompleted()
+    {
+        if (patternD8Complete) { patternD8Complete = false; }
+        countD8LastFrame = countD8;
+        countD8 = BPMSequencer.BeatCountD8 % 32;
+
+        if (countD8 == 0 && countD8LastFrame != countD8)
+        {
+            patternD8Complete = true;
+        }
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        CheckPatternCompleted();
+        if (UpdateinPlaymode)
+        {
+            for (int i = 0; i < PatternD8.Length; i++)
+            {
+                if (patternD8String[i] != PatternD8[i])
+                {
+                    SetPatternBool(PatternD8, patternD8Bool, true, i);
+                    patternD8String[i] = PatternD8[i];
+                }
+            }
+        }
+    }
+
     void SetPatternBool(string[] beatPattern, bool[][] boolPattern, bool specificPattern, int SpecficIndex)
     {
         if (!specificPattern)
@@ -60,31 +88,6 @@ public class BeatSequencer : MonoBehaviour
 
         }
 
-        void Update()
-        {
-            CheckPatternCompleted();
-            if (UpdateinPlaymode)
-            {
-                for (int i = 0; i < PatternD8.Length; i++)
-                {
-                    if (patternD8String[i] != PatternD8[i])
-                    {
-                        SetPatternBool(PatternD8, patternD8Bool, true, i);
-                        patternD8String[i] = PatternD8[i];
-                    }
-                }
-            }
-        }
-        void CheckPatternCompleted()
-        {
-            if (patternD8Complete) { patternD8Complete = false; }
-            countD8LastFrame = countD8;
-            countD8 = BPMSequencer.BeatCountD8 % 32;
-
-            if (countD8 == 0 && countD8LastFrame != countD8)
-            {
-                patternD8Complete = true;
-            }
-        }
-    }
+  
+}
 }
