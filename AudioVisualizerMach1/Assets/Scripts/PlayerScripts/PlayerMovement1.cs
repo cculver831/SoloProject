@@ -78,5 +78,8 @@ public class PlayerMovement1 : MonoBehaviour
         {
             rb.velocity = Vector2.up * jumpforce;
         }
+
     }
+
+
 }
