@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class UpwardForce : MonoBehaviour
 {
-  
-        public float thrust;
-        public Rigidbody rb;
 
-        void Start()
-        {
-            rb = GetComponent<Rigidbody>();
-        }
+    public int speed;
 
-        void FixedUpdate()
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
         {
-            rb.AddForce(transform.forward * thrust);
+            other.gameObject.GetComponent<Rigidbody>
+                    ().AddForce(Vector3.up * speed);
         }
-  
+    }
 }
+  
+
